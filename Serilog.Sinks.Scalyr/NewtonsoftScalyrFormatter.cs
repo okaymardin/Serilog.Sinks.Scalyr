@@ -83,12 +83,11 @@ class NewtonsoftScalyrFormatter : IScalyrFormatter
     {
         try
         {
-            return Dns.GetHostName();
+            return new[] { "COMPUTERNAME", "HOSTNAME" }.Select(Environment.GetEnvironmentVariable).FirstOrDefault() ?? throw new Exception();
         }
         catch
         {
-            return new[] { "COMPUTERNAME", "HOSTNAME" }.Select(Environment.GetEnvironmentVariable).FirstOrDefault() ??
-                   "SERVERHOST";
+            return Dns.GetHostName();
         }
     }
 }
